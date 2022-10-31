@@ -124,7 +124,7 @@ internal class Program
             Console.WriteLine(" Logged in as: ");
             Console.WriteLine("");
 
-            string[] options = { "Play", "Service", "Modpack", "Options" };
+            string[] options = { "Play", "Host", "Service", "Modpack", "Options" };
             for (int i = 0; i < options.Length; i++)
             {
                 if(index == i)
@@ -168,10 +168,6 @@ internal class Program
                     index++;
             }
 
-            if (cKey.Key == ConsoleKey.LeftArrow || cKey.Key == ConsoleKey.Backspace || cKey.Key == ConsoleKey.A)
-            {
-
-            }
             if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
             {
 
