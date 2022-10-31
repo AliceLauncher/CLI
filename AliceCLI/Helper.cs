@@ -15,13 +15,13 @@ namespace AliceCLI
     {
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            using (var archive = GZipArchive.Open(filename))
+            Console.WriteLine(filename);
+            using (var archive = new TarArchive(filename))
             {
-                archive.ExtractAllEntries();
-            }
-            using (var archive = TarArchive.Open(filename))
-            {
-                archive.ExtractAllEntries();
+                foreach (var item in archive.Entries)
+                {
+                    Console.WriteLine(item);
+                }
             }
         }
         public static async Task ExtractGzip(string filename, string outputDir)
