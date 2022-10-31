@@ -15,7 +15,7 @@ namespace AliceCLI.Java
         bool isLinux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         bool isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
-        JDK jdk;
+        JRE jdk;
 
         public Java()
         {
@@ -26,12 +26,14 @@ namespace AliceCLI.Java
         {
             foreach (var item in versions)
             {
-                if (!Directory.Exists($"{Environment.CurrentDirectory}/runtime/windows/jdk_{item}"))
+                string path = $"{Environment.CurrentDirectory}/runtime/windows/jre_{item}";
+
+                if (!Directory.Exists(path))
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Java {item} doesn't exist! Attempting to download.");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Download(new JDK(item, $"{Environment.CurrentDirectory}/runtime/windows/jdk_{item}"));
+                    Download(new JRE(item, path));
                 }
                 else
                 {
@@ -42,19 +44,19 @@ namespace AliceCLI.Java
             }
         }
 
-        private void Download(JDK jdk)
+        private void Download(JRE jre)
         {
             if (isWindows)
             {
-                jdk.OS = "windows";
+                jre.OS = "windows";
             }
             else if (isLinux)
             {
-                jdk.OS = "linux";
+                jre.OS = "linux";
             }
             else if (isOSX)
             {
-                jdk.OS = "mac";
+                jre.OS = "mac";
             }
             else
             {
@@ -63,7 +65,7 @@ namespace AliceCLI.Java
                 Environment.Exit(1);
             }
 
-            jdk.Download();
+            jre.Download();
         }
     }
 }
