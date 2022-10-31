@@ -73,7 +73,7 @@ namespace AliceCLI.Java
             }
             else
             {
-                ExtractTarGz(Path + "/java", Path);
+                ExtractGzip(Path + "/java", Path);
             }
 
         }

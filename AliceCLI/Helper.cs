@@ -37,7 +37,7 @@ namespace AliceCLI
         public static async Task ExtractGzip(string filename, string outputDir)
         {
             using (var input = File.OpenRead(filename))
-            using (var output = File.OpenWrite(outputDir))
+            using (var output = File.OpenWrite(outputDir + "/java2"))
             using (var gz = new GZipStream(input, CompressionMode.Decompress))
             {
                 await gz.CopyToAsync(output);
