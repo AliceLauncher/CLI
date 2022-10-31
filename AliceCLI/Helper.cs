@@ -36,11 +36,16 @@ namespace AliceCLI
         }
         public static async Task ExtractGzip(string filename, string outputDir)
         {
-            using (var input = File.OpenRead(filename))
-            using (var output = File.OpenWrite(outputDir))
-            using (var gz = new GZipStream(input, CompressionMode.Decompress))
+            using (var archive = GZipArchive.Open(filename))
             {
-                await gz.CopyToAsync(output);
+                foreach (var entry in archive.Entries)
+                {
+                    entry.WriteToDirectory(outputDir, new ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
+                }
             }
         }
         public static void ExtractZip(string filename, string outputDir)
