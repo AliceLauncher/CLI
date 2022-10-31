@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using static AliceCLI.Helper;
 
 namespace AliceCLI.Java
 {
@@ -40,8 +41,10 @@ namespace AliceCLI.Java
                 Directory.CreateDirectory(Path);
             }
 
-            using var fileStream = new FileStream(Path + "/java", FileMode.Create);
-            responseStream.Result.CopyTo(fileStream);
+            using (var fileStream = new FileStream(Path + "/java", FileMode.Create))
+            {
+                responseStream.Result.CopyTo(fileStream);
+            }
 
             if (File.Exists(Path + "/java"))
             {
@@ -49,6 +52,18 @@ namespace AliceCLI.Java
                 Console.WriteLine("Downloaded!");
                 Console.ForegroundColor = ConsoleColor.Gray;
             }
+
+            if (OS.Equals("windows"))
+            {
+                ExtractZip(Path + "/java", Path);
+                File.Delete(Path + "/java");
+            }
+            else
+            {
+                ExtractTarGz(Path + "/java", Path);
+                File.Delete(Path + "/java");
+            }
+
         }
     }
 }

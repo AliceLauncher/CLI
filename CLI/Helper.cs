@@ -81,5 +81,9 @@ namespace AliceCLI
                 stream.Seek(offset, SeekOrigin.Current);
             }
         }
+        public static void ExtractZip(string filename, string outputDir)
+        {
+            ZipFile.ExtractToDirectory(filename, outputDir);
+        }
     }
 }

@@ -48,6 +48,8 @@ internal class Program
 
         new Java();
 
+        Console.WriteLine("");
+
         foreach (var @params in args)
         {
             if (@params == "--debug")
