@@ -15,7 +15,7 @@ namespace AliceCLI.Java
         bool isLinux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         bool isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
-        JRE jdk;
+        Runtime jdk;
 
         public Java()
         {
@@ -26,14 +26,34 @@ namespace AliceCLI.Java
         {
             foreach (var item in versions)
             {
-                string path = $"{Environment.CurrentDirectory}/runtime/windows/jre_{item}";
+                string os = "";
+                if (isWindows)
+                {
+                    os = "windows";
+                }
+                else if (isLinux)
+                {
+                    os = "linux";
+                }
+                else if (isOSX)
+                {
+                    os = "mac";
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine("Unsupported platform.");
+                    Environment.Exit(1);
+                }
+
+                string path = $"{Environment.CurrentDirectory}/runtime/{os}/jre_{item}";
 
                 if (!Directory.Exists(path))
                 {
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Java {item} doesn't exist! Attempting to download.");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Download(new JRE(item, path));
+                    Download(new Runtime(item, path));
                 }
                 else
                 {
@@ -44,7 +64,7 @@ namespace AliceCLI.Java
             }
         }
 
-        private void Download(JRE jre)
+        private void Download(Runtime jre)
         {
             if (isWindows)
             {
@@ -57,12 +77,6 @@ namespace AliceCLI.Java
             else if (isOSX)
             {
                 jre.OS = "mac";
-            }
-            else
-            {
-                Console.ForegroundColor = ConsoleColor.DarkRed;
-                Console.WriteLine("Unsupported platform.");
-                Environment.Exit(1);
             }
 
             jre.Download();

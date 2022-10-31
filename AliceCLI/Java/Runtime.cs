@@ -12,7 +12,7 @@ namespace AliceCLI.Java
     /// https://api.adoptium.net/v3/binary/latest/{feature_version}/{release_type}/{os}/{arch}/{image_type}/{jvm_impl}/{heap_size}/{vendor}
     /// https://api.adoptium.net/v3/binary/latest/17/ga/windows/x64/jdk/hotspot/normal/eclipse
     /// </summary>
-    internal class JRE
+    internal class Runtime
     {
         public string OS { get; set; }
         public string Arch 
@@ -22,7 +22,7 @@ namespace AliceCLI.Java
         public string Version { get; set; }
         public string Path { get; set; }
 
-        public JRE(string version, string path)
+        public Runtime(string version, string path)
         {
             Version = version;
             Path = path;
