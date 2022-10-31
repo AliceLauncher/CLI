@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using AliceCLI.Java;
+using System.Diagnostics;
 using System.Drawing;
 
 internal class Program
@@ -45,18 +46,20 @@ internal class Program
 
         WelcomeScreen();
 
+        new Java();
+
         foreach (var @params in args)
         {
             if (@params == "--debug")
                 isDebug = true;
             if (@params == "--update")
                 isUpdate = true;
-            if(@params.Contains("--service:"))
+            if(@params.Contains("--service="))
             {
-                if (@params.Contains("--appid:"))
+                if (@params.Contains("--appid="))
                 {
-                    appidModpack = @params.Replace("--appid:", "");
-                    serviceModpack = @params.Replace("--service:", "");
+                    appidModpack = @params.Replace("--appid=", "");
+                    serviceModpack = @params.Replace("--service=", "");
                 }
                 else
                 {
@@ -64,9 +67,9 @@ internal class Program
                 }
             } else
             {
-                if (@params.Contains("--appid:"))
+                if (@params.Contains("--appid="))
                 {
-                    appidModpack = @params.Replace("--appid:", "");
+                    appidModpack = @params.Replace("--appid=", "");
                     serviceModpack = "curseforge";
                 }
             }
@@ -121,7 +124,7 @@ internal class Program
 
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine(" Logged in as: ");
+            Console.WriteLine($" Logged in as: ");
             Console.WriteLine("");
 
             string[] options = { "Play", "Host", "Service", "Modpack", "Options" };
