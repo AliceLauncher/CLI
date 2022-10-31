@@ -36,11 +36,10 @@ namespace AliceCLI
                 {
                     int read;
                     var buffer = new byte[chunk];
-                    do
+                    while ((read = gzip.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        read = gzip.Read(buffer, 0, chunk);
                         memStr.Write(buffer, 0, read);
-                    } while (read == chunk);
+                    }
 
                     memStr.Seek(0, SeekOrigin.Begin);
                     ExtractTar(memStr, outputDir);
