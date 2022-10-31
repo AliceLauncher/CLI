@@ -15,10 +15,10 @@ namespace AliceCLI
     {
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            Console.WriteLine(filename)
+            Console.WriteLine(filename);
             using (var archive = GZipArchive.Open(filename))
             {
-                foreach (var item in archive)
+                foreach (var item in archive.Entries)
                 {
                     Console.WriteLine(item);
                 }
@@ -26,7 +26,7 @@ namespace AliceCLI
             }
             using (var archive = TarArchive.Open(filename))
             {
-                foreach (var item in archive)
+                foreach (var item in archive.Entries)
                 {
                     Console.WriteLine(item);
                 }
