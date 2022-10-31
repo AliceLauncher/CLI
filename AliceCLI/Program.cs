@@ -180,6 +180,8 @@ internal class Program
 
         } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
 
+        Console.ForegroundColor = ConsoleColor.White;
+
     }
 
     // check on updates from github
