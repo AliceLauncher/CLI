@@ -15,17 +15,9 @@ namespace AliceCLI
     {
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            Console.WriteLine(filename);
-            using (var archive = GZipArchive.Open(filename))
-            {
-                foreach (var item in archive.Entries)
-                {
-                    Console.WriteLine(item);
-                }
-                archive.ExtractAllEntries();
-            }
-            Console.WriteLine(filename);
-            using (var archive = TarArchive.Open(filename))
+            ExtractGzip(filename, filename + ".tar");
+
+            using (var archive = TarArchive.Open(filename.tar))
             {
                 foreach (var item in archive.Entries)
                 {
@@ -37,7 +29,7 @@ namespace AliceCLI
         public static async Task ExtractGzip(string filename, string outputDir)
         {
             using (var input = File.OpenRead(filename))
-            using (var output = File.OpenWrite(outputDir + "/java2"))
+            using (var output = File.OpenWrite(outputDir))
             using (var gz = new GZipStream(input, CompressionMode.Decompress))
             {
                 await gz.CopyToAsync(output);
