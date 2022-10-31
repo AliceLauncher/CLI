@@ -84,7 +84,7 @@ namespace AliceCLI
                     Directory.CreateDirectory(Path.GetDirectoryName(output));
                 if (!name.Equals("./", StringComparison.InvariantCulture))
                 {
-                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.Write))
+                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.ReadWrite))
                     {
                         var buf = new byte[size];
                         stream.Read(buf, 0, buf.Length);
