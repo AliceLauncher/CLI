@@ -34,7 +34,7 @@ namespace AliceCLI
             File.Delete(filename + ".tar");
 
         }
-        public static async Task ExtractGzip(string filename, string outputDir)
+        public static void ExtractGzip(string filename, string outputDir)
         {
             using (var archive = GZipArchive.Open(filename))
             {
