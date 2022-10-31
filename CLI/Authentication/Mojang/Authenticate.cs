@@ -7,9 +7,6 @@ using System.Threading.Tasks;
 
 namespace CLI.Authentication.Mojang
 {
-    /// <summary>
-    /// https://wiki.vg/Authentication#Authenticate
-    /// </summary>
     internal class Authenticate : IRequest
     {
         public string Endpoint()

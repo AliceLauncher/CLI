@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace CLI.Authentication.Mojang
 {
+    /// <summary>
+    /// https://wiki.vg/Authentication#Authenticate
+    /// </summary>
     internal class Mojang : Authentication
     {
         public override string GetEndpoint()

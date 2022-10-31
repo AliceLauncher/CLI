@@ -27,4 +27,12 @@ namespace CLI
     {
         
     }
+    public enum Services
+    {
+        VANILLA,
+        CURSEFORGE,
+        MODRINTH,
+        FTB,
+        LOCAL
+    }
 }
