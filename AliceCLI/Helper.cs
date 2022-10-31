@@ -17,9 +17,9 @@ namespace AliceCLI
     {
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            ExtractGzip(filename, filename + ".tar");
+            ExtractGzip(filename, filename;
 
-            using (var archive = TarArchive.Open(filename + ".tar"))
+            using (var archive = TarArchive.Open(filename))
             {
                 foreach (var entry in archive.Entries)
                 {
@@ -31,7 +31,7 @@ namespace AliceCLI
                 }
             }
 
-            File.Delete(filename + ".tar");
+            File.Delete(filename);
 
         }
         public static void ExtractGzip(string filename, string outputDir)
