@@ -24,6 +24,7 @@ namespace AliceCLI
                 }
                 archive.ExtractAllEntries();
             }
+            Console.WriteLine(filename);
             using (var archive = TarArchive.Open(filename))
             {
                 foreach (var item in archive.Entries)
