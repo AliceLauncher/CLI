@@ -17,7 +17,7 @@ namespace AliceCLI
     {
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            ExtractGzip(filename, filename;
+            ExtractGzip(filename, filename);
 
             using (var archive = TarArchive.Open(filename))
             {
