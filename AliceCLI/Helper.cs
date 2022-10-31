@@ -18,7 +18,7 @@ namespace AliceCLI
         {
             var stream = File.OpenRead(filename);
             TarArchive tarArchive = TarArchive.CreateInputTarArchive(stream);
-            tarArchive.ExtractContents(filename);
+            tarArchive.ExtractContents(outputDir);
             tarArchive.Close();
             stream.Close();
         }
