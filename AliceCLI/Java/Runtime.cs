@@ -54,7 +54,7 @@ namespace AliceCLI.Java
                 Directory.CreateDirectory(Path);
             }
 
-            using (var fileStream = new FileStream(Path + "/java.tar.gz", FileMode.Create))
+            using (var fileStream = new FileStream(Path + "/java", FileMode.Create))
             {
                 responseStream.Result.CopyTo(fileStream);
             }
@@ -73,8 +73,7 @@ namespace AliceCLI.Java
             }
             else
             {
-                ExtractTarGz(Path + "/java.tar.gz", Path);
-                File.Delete(Path + "/java.tar.gz");
+                ExtractTarGz(Path + "/java", Path);
             }
 
         }
