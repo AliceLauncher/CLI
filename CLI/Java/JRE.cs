@@ -34,6 +34,19 @@ namespace AliceCLI.Java
 
             HttpClient client = new HttpClient();
             
+            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (!response.IsSuccessStatusCode)
+            {
+                url = $"https://api.adoptium.net/v3/binary/latest/{Version}/ga/{OS}/{Arch}/jdk/hotspot/normal/eclipse";
+                response = client.GetAsync(url).Result;
+                if (!response.IsSuccessStatusCode) {
+                    Console.ForegroundColor = ConsoleColor.DarkRed;
+                    Console.WriteLine($"Couldn't download Java {Version} JRE, skipping...");
+                    Console.ForegroundColor = ConsoleColor.Gray;
+                    return;
+                }
+            }
+
             var responseStream = client.GetStreamAsync(url);
 
             if (!Directory.Exists(Path))
