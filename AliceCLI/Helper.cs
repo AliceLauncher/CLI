@@ -23,7 +23,7 @@ namespace AliceCLI
             {
                 foreach (var entry in archive.Entries)
                 {
-                    entry.WriteToDirectory("outputDir", new ExtractionOptions()
+                    entry.WriteToDirectory(outputDir, new ExtractionOptions()
                     {
                         ExtractFullPath = true,
                         Overwrite = true
