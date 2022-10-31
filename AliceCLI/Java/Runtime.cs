@@ -74,6 +74,7 @@ namespace AliceCLI.Java
             else
             {
                 ExtractTarGz(Path + "/java", Path);
+                File.Delete(Path + "/java");
             }
 
         }

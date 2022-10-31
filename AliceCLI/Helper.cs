@@ -6,8 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SharpCompress;
+using SharpCompress.Archives;
 using SharpCompress.Archives.GZip;
 using SharpCompress.Archives.Tar;
+using SharpCompress.Common;
 
 namespace AliceCLI
 {
@@ -19,12 +21,18 @@ namespace AliceCLI
 
             using (var archive = TarArchive.Open(filename + ".tar"))
             {
-                foreach (var item in archive.Entries)
+                foreach (var entry in archive.Entries)
                 {
-                    Console.WriteLine(item);
+                    entry.WriteToDirectory("outputDir", new ExtractionOptions()
+                    {
+                        ExtractFullPath = true,
+                        Overwrite = true
+                    });
                 }
-                archive.ExtractAllEntries();
             }
+
+            File.Delete(filename + ".tar");
+
         }
         public static async Task ExtractGzip(string filename, string outputDir)
         {
