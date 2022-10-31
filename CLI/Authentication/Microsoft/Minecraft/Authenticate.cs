@@ -16,12 +16,6 @@ namespace CLI.Authentication.Microsoft.Minecraft
         {
             throw new NotImplementedException();
         }
-
-        public string Execute()
-        {
-            throw new NotImplementedException();
-        }
-
         public string Payload()
         {
             throw new NotImplementedException();

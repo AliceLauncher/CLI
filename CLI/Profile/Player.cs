@@ -24,7 +24,7 @@ namespace CLI.Profile
         public string GetID() => ID;
         public string GetName() => Name;
         public Skin[] GetSkins() => Skins;
-        public string GetCapes() => Capes;
+        public string[] GetCapes() => Capes;
 
     }
 }

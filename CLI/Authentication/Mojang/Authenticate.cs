@@ -17,11 +17,6 @@ namespace CLI.Authentication.Mojang
             throw new NotImplementedException();
         }
 
-        public string Execute()
-        {
-            throw new NotImplementedException();
-        }
-
         public string Payload()
         {
             throw new NotImplementedException();

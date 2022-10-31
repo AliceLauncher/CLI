@@ -10,6 +10,6 @@ namespace CLI.Interfaces
     {
         string Endpoint();
         string Payload();
-        string Execute();
+        
     }
 }

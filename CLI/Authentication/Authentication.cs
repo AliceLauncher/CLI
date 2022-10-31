@@ -9,6 +9,7 @@ namespace CLI.Authentication
     internal abstract class Authentication
     {
         public abstract string GetEndpoint();
-        string ContentType = "application/json";
+
+        readonly string ContentType = "application/json";
     }
 }
