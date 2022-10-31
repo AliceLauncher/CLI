@@ -11,11 +11,11 @@ namespace AliceCLI
     {
         /// <summary>
         /// https://gist.github.com/ForeverZer0/a2cd292bd2f3b5e114956c00bb6e872b
-		/// Extracts a <i>.tar.gz</i> archive to the specified directory.
-		/// </summary>
-		/// <param name="filename">The <i>.tar.gz</i> to decompress and extract.</param>
-		/// <param name="outputDir">Output directory to write the files.</param>
-		public static void ExtractTarGz(string filename, string outputDir)
+        /// Extracts a <i>.tar.gz</i> archive to the specified directory.
+        /// </summary>
+        /// <param name="filename">The <i>.tar.gz</i> to decompress and extract.</param>
+        /// <param name="outputDir">Output directory to write the files.</param>
+        public static void ExtractTarGz(string filename, string outputDir)
         {
             using (var stream = File.OpenRead(filename))
                 ExtractTarGz(stream, outputDir);
@@ -47,7 +47,6 @@ namespace AliceCLI
                 }
             }
         }
-
         /// <summary>
         /// Extractes a <c>tar</c> archive to the specified directory.
         /// </summary>
@@ -84,7 +83,7 @@ namespace AliceCLI
                     Directory.CreateDirectory(Path.GetDirectoryName(output));
                 if (!name.Equals("./", StringComparison.InvariantCulture))
                 {
-                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.ReadWrite))
+                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.Write))
                     {
                         var buf = new byte[size];
                         stream.Read(buf, 0, buf.Length);
@@ -99,6 +98,15 @@ namespace AliceCLI
                     offset = 0;
 
                 stream.Seek(offset, SeekOrigin.Current);
+            }
+        }
+        public static async Task ExtractGzip(string filename, string outputDir)
+        {
+            using (var input = File.OpenRead(filename))
+            using (var output = File.OpenWrite(outputDir))
+            using (var gz = new GZipStream(input, CompressionMode.Decompress))
+            {
+                await gz.CopyToAsync(output);
             }
         }
         public static void ExtractZip(string filename, string outputDir)
