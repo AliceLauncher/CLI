@@ -17,7 +17,7 @@ namespace AliceCLI
         {
             ExtractGzip(filename, filename + ".tar");
 
-            using (var archive = TarArchive.Open(filename.tar))
+            using (var archive = TarArchive.Open(filename + ".tar"))
             {
                 foreach (var item in archive.Entries)
                 {
