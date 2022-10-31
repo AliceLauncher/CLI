@@ -16,11 +16,15 @@ namespace AliceCLI
         [Obsolete]
         public static void ExtractTarGz(string filename, string outputDir)
         {
-            var stream = File.OpenRead(filename);
-            TarArchive tarArchive = TarArchive.CreateInputTarArchive(stream);
+            Stream inStream = File.OpenRead(filename);
+            Stream gzipStream = new GZipInputStream(inStream);
+
+            TarArchive tarArchive = TarArchive.CreateInputTarArchive(gzipStream);
             tarArchive.ExtractContents(outputDir);
             tarArchive.Close();
-            stream.Close();
+
+            gzipStream.Close();
+            inStream.Close();
         }
         public static async Task ExtractGzip(string filename, string outputDir)
         {
