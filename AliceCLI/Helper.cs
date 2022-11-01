@@ -46,7 +46,7 @@ namespace AliceCLI
         {
             ExtractGzip(filename, filename + ".tar");
 
-            ExtractTar(filename, outputDir);
+            ExtractTar(filename + ".tar", outputDir);
 
             File.Delete(filename + ".tar");
 
