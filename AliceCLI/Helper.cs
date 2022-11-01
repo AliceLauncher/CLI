@@ -51,13 +51,13 @@ namespace AliceCLI
             File.Delete(filename + ".tar");
 
         }
-        public static async Task ExtractGzip(string filename, string outputDir)
+        public static void ExtractGzip(string filename, string outputDir)
         {
             using (var input = File.OpenRead(filename))
             using (var output = File.OpenWrite(outputDir))
             using (var gz = new GZipStream(input, CompressionMode.Decompress))
             {
-                await gz.CopyToAsync(output);
+                gz.CopyToAsync(output);
             }
         }
         public static void ExtractZip(string filename, string outputDir)
