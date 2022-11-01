@@ -12,4 +12,13 @@
     <PackageReference Include="SharpZipLib" Version="1.4.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Instances\Manager\" />
+    <Folder Include="Instances\Services\Modrinth\" />
+    <Folder Include="Instances\Services\Curseforge\" />
+    <Folder Include="Instances\Services\FTB\" />
+    <Folder Include="Instances\Services\Local\" />
+    <Folder Include="Instances\Services\Vanilla\" />
+  </ItemGroup>
+
 </Project>

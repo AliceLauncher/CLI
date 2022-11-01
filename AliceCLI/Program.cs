@@ -142,7 +142,7 @@ internal class Program
             Console.WriteLine($" Logged in as: ");
             Console.WriteLine("");
 
-            string[] options = { "Play", "Host", "Service", "Modpack", "Options" };
+            string[] options = { "Play", "Host", "Instances", "Options" };
             for (int i = 0; i < options.Length; i++)
             {
                 if(index == i)

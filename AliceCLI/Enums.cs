@@ -25,14 +25,19 @@ namespace CLI
     }
     public enum Alias
     {
-        
+    
     }
     public enum Services
     {
-        VANILLA,
         CURSEFORGE,
         MODRINTH,
         FTB,
-        LOCAL
+        LOCAL,
+    }
+    public enum Modloaders
+    {
+        VANILLA,
+        FORGE,
+        FABRIC,
     }
 }
