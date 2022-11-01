@@ -22,19 +22,14 @@ namespace AliceCLI
                     if (tarEntry.IsDirectory)
                         continue;
 
-                    // Converts the unix forward slashes in the filenames to windows backslashes
                     string name = tarEntry.Name.Replace('/', Path.DirectorySeparatorChar);
 
-                    // Remove any root e.g. '\' because a PathRooted filename defeats Path.Combine
                     if (Path.IsPathRooted(name))
                         name = name.Substring(Path.GetPathRoot(name).Length);
-
-                    // Apply further name transformations here as necessary
                     string outName = Path.Combine(outputDir, name);
 
                     string directoryName = Path.GetDirectoryName(outName);
 
-                    // Does nothing if directory exists
                     Directory.CreateDirectory(directoryName);
 
                     FileStream outStr = new FileStream(outName, FileMode.Create);
@@ -42,10 +37,6 @@ namespace AliceCLI
                     tarIn.CopyEntryContents(outStr);
 
                     outStr.Close();
-
-                    // Set the modification date/time. This approach seems to solve timezone issues.
-                    DateTime myDt = DateTime.SpecifyKind(tarEntry.ModTime, DateTimeKind.Utc);
-                    File.SetLastWriteTime(outName, myDt);
                 }
 
                 tarIn.Close();
