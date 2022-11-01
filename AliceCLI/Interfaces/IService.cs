@@ -1,4 +1,4 @@
-﻿namespace AliceCLI.Instances
+﻿namespace AliceCLI.Interfaces
 {
     /// <summary>
     /// https://modpacksch.docs.apiary.io/#/reference/0/tags

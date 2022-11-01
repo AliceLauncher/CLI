@@ -18,6 +18,16 @@ namespace AliceCLI
         AccountNotMature = 2148916238
     }
 
+    public enum HttpMethods
+    {
+        GET,
+        POST,
+        PUT,
+        DELETE,
+        HEAD,
+        OPTIONS,
+    }
+
     public enum Variant
     {
     }
