@@ -1,15 +1,11 @@
-﻿using System;
+﻿using ICSharpCode.SharpZipLib.Tar;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SharpCompress;
-using SharpCompress.Archives;
-using SharpCompress.Archives.GZip;
-using SharpCompress.Archives.Tar;
-using SharpCompress.Common;
 
 namespace AliceCLI
 {
@@ -17,45 +13,42 @@ namespace AliceCLI
     {
         public static void ExtractTar(string filename, string outputDir)
         {
-            using (var stream = File.OpenRead(filename))
-                ExtractTar(stream, outputDir);
-        }
-
-        public static void ExtractTar(Stream stream, string outputDir)
-        {
-            var buffer = new byte[100];
-            while (true)
+            using (FileStream fsIn = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                stream.Read(buffer, 0, 100);
-                var name = Encoding.ASCII.GetString(buffer).Trim('\0');
-                if (String.IsNullOrWhiteSpace(name))
-                    break;
-                stream.Seek(24, SeekOrigin.Current);
-                stream.Read(buffer, 0, 12);
-                var size = Convert.ToInt64(Encoding.UTF8.GetString(buffer, 0, 12).Trim('\0').Trim(), 8);
-
-                stream.Seek(376L, SeekOrigin.Current);
-
-                var output = Path.Combine(outputDir, name);
-                if (!Directory.Exists(Path.GetDirectoryName(output)))
-                    Directory.CreateDirectory(Path.GetDirectoryName(output));
-                if (!name.Equals("./", StringComparison.InvariantCulture))
+                TarInputStream tarIn = new TarInputStream(fsIn);
+                TarEntry tarEntry;
+                while ((tarEntry = tarIn.GetNextEntry()) != null)
                 {
-                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.Write))
-                    {
-                        var buf = new byte[size];
-                        stream.Read(buf, 0, buf.Length);
-                        str.Write(buf, 0, buf.Length);
-                    }
+                    if (tarEntry.IsDirectory)
+                        continue;
+
+                    // Converts the unix forward slashes in the filenames to windows backslashes
+                    string name = tarEntry.Name.Replace('/', Path.DirectorySeparatorChar);
+
+                    // Remove any root e.g. '\' because a PathRooted filename defeats Path.Combine
+                    if (Path.IsPathRooted(name))
+                        name = name.Substring(Path.GetPathRoot(name).Length);
+
+                    // Apply further name transformations here as necessary
+                    string outName = Path.Combine(outputDir, name);
+
+                    string directoryName = Path.GetDirectoryName(outName);
+
+                    // Does nothing if directory exists
+                    Directory.CreateDirectory(directoryName);
+
+                    FileStream outStr = new FileStream(outName, FileMode.Create);
+
+                    tarIn.CopyEntryContents(outStr);
+
+                    outStr.Close();
+
+                    // Set the modification date/time. This approach seems to solve timezone issues.
+                    DateTime myDt = DateTime.SpecifyKind(tarEntry.ModTime, DateTimeKind.Utc);
+                    File.SetLastWriteTime(outName, myDt);
                 }
 
-                var pos = stream.Position;
-
-                var offset = 512 - (pos % 512);
-                if (offset == 512)
-                    offset = 0;
-
-                stream.Seek(offset, SeekOrigin.Current);
+                tarIn.Close();
             }
         }
         public static void ExtractTarGz(string filename, string outputDir)
