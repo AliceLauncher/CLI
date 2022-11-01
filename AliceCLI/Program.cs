@@ -1,10 +1,11 @@
-﻿using AliceCLI.Java;
+﻿using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
+using AliceCLI.Java;
+using Microsoft.Win32.SafeHandles;
 using System.Diagnostics;
 using System.Drawing;
 
 internal class Program
 {
-
 
     private static void WelcomeScreen()
     {
@@ -39,7 +40,7 @@ internal class Program
 
     static bool isRegistered = false;
 
-    private static void Main(string[] args)
+    private static async Task Main(string[] args)
     {
         if (!isRegistered)
         {
@@ -60,6 +61,10 @@ internal class Program
         WelcomeScreen();
 
         new Java();
+
+        Console.WriteLine("");
+
+        var token = await new AccessToken().Create();
 
         Console.WriteLine("");
 
@@ -90,7 +95,8 @@ internal class Program
             }
         }
 
-        Console.Write(" Login: ");
+        // for mojang login
+/*        Console.Write(" Login: ");
         var user = Console.ReadLine();
 
         Console.Write(" Password: ");
@@ -113,16 +119,16 @@ internal class Program
                 Console.Write("*");
                 pass += keyInfo.KeyChar;
             }
-        } while (key != ConsoleKey.Enter);
+        } while (key != ConsoleKey.Enter);*/
 
-        if (isSuccess)
+        if (token.Length != 0)
         {
             DisplayMenu();
         }
         else
         {
             // strips the update args
-            Main(args.Select(x=>x.Replace("--update", "")).ToArray());
+            await Main(args.Select(x=>x.Replace("--update", "")).ToArray());
         }
 
     }
@@ -160,8 +166,8 @@ internal class Program
             Console.WriteLine("");
 
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine(" ♥ Discord: discord.alicelauncher.gg");
-            Console.WriteLine(" ♥ Website: alicelauncher.gg");
+            Console.WriteLine(" ♥ Discord: discord.alicelauncher.com");
+            Console.WriteLine(" ♥ Website: alicelauncher.com");
 
             Console.ForegroundColor = ConsoleColor.White;
             Console.WriteLine("");
