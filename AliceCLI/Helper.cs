@@ -11,35 +11,57 @@ namespace AliceCLI
 {
     internal class Helper
     {
-        public static void ExtractTar(string filename, string outputDir)
+        /// <summary>
+		/// Extractes a <c>tar</c> archive to the specified directory.
+		/// </summary>
+		/// <param name="filename">The <i>.tar</i> to extract.</param>
+		/// <param name="outputDir">Output directory to write the files.</param>
+		public static void ExtractTar(string filename, string outputDir)
         {
-            using (FileStream fsIn = new FileStream(filename, FileMode.Open, FileAccess.Read))
+            using (var stream = File.OpenRead(filename))
+                ExtractTar(stream, outputDir);
+        }
+
+        /// <summary>
+        /// Extractes a <c>tar</c> archive to the specified directory.
+        /// </summary>
+        /// <param name="stream">The <i>.tar</i> to extract.</param>
+        /// <param name="outputDir">Output directory to write the files.</param>
+        public static void ExtractTar(Stream stream, string outputDir)
+        {
+            var buffer = new byte[100];
+            while (true)
             {
-                TarInputStream tarIn = new TarInputStream(fsIn);
-                TarEntry tarEntry;
-                while ((tarEntry = tarIn.GetNextEntry()) != null)
+                stream.Read(buffer, 0, 100);
+                var name = Encoding.ASCII.GetString(buffer).Trim('\0');
+                if (String.IsNullOrWhiteSpace(name))
+                    break;
+                stream.Seek(24, SeekOrigin.Current);
+                stream.Read(buffer, 0, 12);
+                var size = Convert.ToInt64(Encoding.UTF8.GetString(buffer, 0, 12).Trim('\0').Trim(), 8);
+
+                stream.Seek(376L, SeekOrigin.Current);
+
+                var output = Path.Combine(outputDir, name);
+                if (!Directory.Exists(Path.GetDirectoryName(output)))
+                    Directory.CreateDirectory(Path.GetDirectoryName(output));
+                if (!name.Equals("./", StringComparison.InvariantCulture))
                 {
-                    if (tarEntry.IsDirectory)
-                        continue;
-
-                    string name = tarEntry.Name.Replace('/', Path.DirectorySeparatorChar);
-
-                    if (Path.IsPathRooted(name))
-                        name = name.Substring(Path.GetPathRoot(name).Length);
-                    string outName = Path.Combine(outputDir, name);
-
-                    string directoryName = Path.GetDirectoryName(outName);
-
-                    Directory.CreateDirectory(directoryName);
-
-                    FileStream outStr = new FileStream(outName, FileMode.Create);
-
-                    tarIn.CopyEntryContents(outStr);
-
-                    outStr.Close();
+                    using (var str = File.Open(output, FileMode.OpenOrCreate, FileAccess.Write))
+                    {
+                        var buf = new byte[size];
+                        stream.Read(buf, 0, buf.Length);
+                        str.Write(buf, 0, buf.Length);
+                    }
                 }
 
-                tarIn.Close();
+                var pos = stream.Position;
+
+                var offset = 512 - (pos % 512);
+                if (offset == 512)
+                    offset = 0;
+
+                stream.Seek(offset, SeekOrigin.Current);
             }
         }
         public static void ExtractTarGz(string filename, string outputDir)
@@ -58,6 +80,7 @@ namespace AliceCLI
             using (var gz = new GZipStream(input, CompressionMode.Decompress))
             {
                 gz.CopyToAsync(output);
+                gz.Close();
             }
         }
         public static void ExtractZip(string filename, string outputDir)
