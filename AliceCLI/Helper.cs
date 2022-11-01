@@ -15,7 +15,8 @@ namespace AliceCLI
         {
             using (FileStream fsIn = new FileStream(filename, FileMode.Open, FileAccess.Read))
             {
-                TarInputStream tarIn = new TarInputStream(fsIn);
+                TarInputStream tarInputStream = new(fsIn, Encoding.UTF8);
+                TarInputStream tarIn = tarInputStream;
                 TarEntry tarEntry;
                 while ((tarEntry = tarIn.GetNextEntry()) != null)
                 {
@@ -25,12 +26,15 @@ namespace AliceCLI
                     string name = tarEntry.Name.Replace('/', Path.DirectorySeparatorChar);
 
                     if (Path.IsPathRooted(name))
-                        name = name.Substring(Path.GetPathRoot(name).Length);
+                        name = name[Path.GetPathRoot(name).Length..];
                     string outName = Path.Combine(outputDir, name);
 
-                    string directoryName = Path.GetDirectoryName(outName);
+                    string? directoryName = Path.GetDirectoryName(outName);
+                    if(directoryName != null)
+                    {
+                        Directory.CreateDirectory(directoryName);
+                    }
 
-                    Directory.CreateDirectory(directoryName);
 
                     FileStream outStr = new FileStream(outName, FileMode.Create);
 
