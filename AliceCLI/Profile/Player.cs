@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CLI.Profile
+﻿namespace AliceCLI.Profile
 {
     internal class Player
     {
@@ -22,9 +16,11 @@ namespace CLI.Profile
         }
 
         public string GetID() => ID;
-        public string GetName() => Name;
-        public Skin[] GetSkins() => Skins;
-        public string[] GetCapes() => Capes;
 
+        public string GetName() => Name;
+
+        public Skin[] GetSkins() => Skins;
+
+        public string[] GetCapes() => Capes;
     }
 }

@@ -1,11 +1,6 @@
-﻿using CLI.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AliceCLI.Interfaces;
 
-namespace CLI.Authentication.Mojang
+namespace AliceCLI.Authentication.Mojang
 {
     internal class Refresh : IRequest
     {
@@ -13,6 +8,7 @@ namespace CLI.Authentication.Mojang
         {
             throw new NotImplementedException();
         }
+
         public string Payload()
         {
             throw new NotImplementedException();

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CLI.Authentication.Microsoft.XSTS
+﻿namespace AliceCLI.Authentication.Microsoft.XSTS
 {
     internal class Authorize
     {

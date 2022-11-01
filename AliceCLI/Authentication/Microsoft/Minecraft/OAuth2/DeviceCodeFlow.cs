@@ -1,11 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Identity.Client;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 {
@@ -20,7 +14,7 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 
         private static IPublicClientApplication application;
 
-        string[] scopes = new[] { "user.read" };
+        private string[] scopes = new[] { "user.read" };
 
         public DeviceCodeFlow()
         {
@@ -67,6 +61,5 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
             }
             return result.AccessToken;
         }
-
     }
 }

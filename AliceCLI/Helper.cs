@@ -1,11 +1,6 @@
 ﻿using ICSharpCode.SharpZipLib.Tar;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.IO.Compression;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace AliceCLI
 {
@@ -30,11 +25,10 @@ namespace AliceCLI
                     string outName = Path.Combine(outputDir, name);
 
                     string? directoryName = Path.GetDirectoryName(outName);
-                    if(directoryName != null)
+                    if (directoryName != null)
                     {
                         Directory.CreateDirectory(directoryName);
                     }
-
 
                     FileStream outStr = new FileStream(outName, FileMode.Create);
 
@@ -46,6 +40,7 @@ namespace AliceCLI
                 tarIn.Close();
             }
         }
+
         public static void ExtractTarGz(string filename, string outputDir)
         {
             ExtractGzip(filename, filename + ".tar");
@@ -53,8 +48,8 @@ namespace AliceCLI
             ExtractTar(filename + ".tar", outputDir);
 
             File.Delete(filename + ".tar");
-
         }
+
         public static void ExtractGzip(string filename, string outputDir)
         {
             using (var input = File.OpenRead(filename))
@@ -64,6 +59,7 @@ namespace AliceCLI
                 gz.CopyTo(output);
             }
         }
+
         public static void ExtractZip(string filename, string outputDir)
         {
             ZipFile.ExtractToDirectory(filename, outputDir);

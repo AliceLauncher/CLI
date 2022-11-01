@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AliceCLI.Instances
+﻿namespace AliceCLI.Instances
 {
     /// <summary>
     /// https://modpacksch.docs.apiary.io/#/reference/0/tags

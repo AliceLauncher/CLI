@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
+﻿namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 {
     internal class AuthorizationCodeFlow
     {

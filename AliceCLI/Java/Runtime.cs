@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using static AliceCLI.Helper;
-
-namespace AliceCLI.Java
+﻿namespace AliceCLI.Java
 {
     /// <summary>
     /// https://api.adoptium.net/v3/binary/latest/{feature_version}/{release_type}/{os}/{arch}/{image_type}/{jvm_impl}/{heap_size}/{vendor}
@@ -15,10 +7,9 @@ namespace AliceCLI.Java
     internal class Runtime
     {
         public string OS { get; set; }
-        public string Arch 
-        {
-            get => System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLower();
-        }
+
+        public string Arch => System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture.ToString().ToLower();
+
         public string Version { get; set; }
         public string Path { get; set; }
 
@@ -32,14 +23,15 @@ namespace AliceCLI.Java
         {
             string url = $"https://api.adoptium.net/v3/binary/latest/{Version}/ga/{OS}/{Arch}/jre/hotspot/normal/eclipse";
 
-            HttpClient client = new HttpClient();
-            
+            HttpClient client = new ();
+
             HttpResponseMessage response = client.GetAsync(url).Result;
             if (!response.IsSuccessStatusCode)
             {
                 url = $"https://api.adoptium.net/v3/binary/latest/{Version}/ga/{OS}/{Arch}/jdk/hotspot/normal/eclipse";
                 response = client.GetAsync(url).Result;
-                if (!response.IsSuccessStatusCode) {
+                if (!response.IsSuccessStatusCode)
+                {
                     Console.ForegroundColor = ConsoleColor.DarkRed;
                     Console.WriteLine($"Couldn't download Java {Version} JRE, skipping...");
                     Console.ForegroundColor = ConsoleColor.Gray;
@@ -76,7 +68,6 @@ namespace AliceCLI.Java
                 ExtractTarGz(Path + "/java", Path);
                 File.Delete(Path + "/java");
             }
-
         }
     }
 }

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CLI.Authentication.Mojang
+﻿namespace AliceCLI.Authentication.Mojang
 {
     /// <summary>
     /// https://wiki.vg/Authentication#Authenticate
     /// </summary>
     internal class Mojang : Authentication
     {
-        public override string GetEndpoint()
+        public override string GetBaseURL()
         {
             return "https://authserver.mojang.com";
         }

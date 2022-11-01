@@ -1,21 +1,15 @@
-﻿using CLI;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace AliceCLI.Instances
+﻿namespace AliceCLI.Instances
 {
     // alicialauncher.config.json
     internal partial class Config
     {
-        string Name { get; set; }
-        Minecraft Instance { get; set; }
-        int Memory { get; set; }
-        Services Service { get; set; }
-        string Arguments { get; set; }
+        private string Name { get; set; }
+        private Minecraft Instance { get; set; }
+        private int Memory { get; set; }
+        private Services Service { get; set; }
+        private string Arguments { get; set; }
+
         //if set
-        string JavaPath { get; set; } 
+        private string JavaPath { get; set; }
     }
 }

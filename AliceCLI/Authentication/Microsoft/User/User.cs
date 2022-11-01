@@ -1,6 +1,6 @@
-﻿namespace AliceCLI.Authentication.Microsoft.XSTS
+﻿namespace AliceCLI.Authentication.Microsoft.User
 {
-    internal class XSTS : Authentication
+    internal class User : Authentication
     {
         public override string GetBaseURL()
         {
