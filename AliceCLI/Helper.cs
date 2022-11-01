@@ -42,7 +42,6 @@ namespace AliceCLI
                 {
                     entry.WriteToDirectory(outputDir, new ExtractionOptions()
                     {
-                        ExtractFullPath = true,
                         Overwrite = true
                     });
                 }
