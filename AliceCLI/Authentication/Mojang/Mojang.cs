@@ -9,10 +9,5 @@
         {
             return "https://authserver.mojang.com";
         }
-
-        public override HttpContent GetPayload()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

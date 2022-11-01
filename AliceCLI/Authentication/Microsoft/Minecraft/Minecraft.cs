@@ -9,10 +9,5 @@
         {
             return "https://api.minecraftservices.com/";
         }
-
-        public override HttpContent GetPayload()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

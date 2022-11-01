@@ -9,7 +9,7 @@ namespace AliceCLI.Authentication.Mojang
             throw new NotImplementedException();
         }
 
-        public string Payload()
+        public HttpContent Payload()
         {
             throw new NotImplementedException();
         }

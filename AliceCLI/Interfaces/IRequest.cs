@@ -4,6 +4,6 @@
     {
         string Endpoint();
 
-        string Payload();
+        HttpContent Payload();
     }
 }

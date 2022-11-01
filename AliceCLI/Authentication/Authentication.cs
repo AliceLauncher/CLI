@@ -1,14 +1,17 @@
-﻿namespace AliceCLI.Authentication
+﻿using AliceCLI.Interfaces;
+
+namespace AliceCLI.Authentication
 {
     internal abstract class Authentication
     {
         public abstract string GetBaseURL();
-        public abstract HttpContent GetPayload();
-        public virtual async Task<bool> Execute(HttpMethods methods)
+        public virtual async Task<bool> Execute(HttpMethods methods, IRequest request)
         {
             HttpClient client = new HttpClient();
 
             HttpResponseMessage? response = null;
+
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
 
             switch (methods)
             {
@@ -16,15 +19,20 @@
                     response = await client.GetAsync(GetBaseURL());
                     break;
                 case HttpMethods.POST:
-                    response = await client.PostAsync(GetBaseURL(), GetPayload());
+                    Console.WriteLine("hi");
+                    response = await client.PostAsync(GetBaseURL(), request.Payload());
                     break;
                 case HttpMethods.PUT:
-                    response = await client.PutAsync(GetBaseURL(), GetPayload());
+                    response = await client.PutAsync(GetBaseURL(), request.Payload());
                     break;
                 case HttpMethods.DELETE:
                     response = await client.DeleteAsync(GetBaseURL());
                     break;   
             }
+
+            Console.WriteLine(response.Content.ToString());
+            Console.WriteLine(response.StatusCode);
+            Console.WriteLine("ye");
 
             if (response == null || !response.IsSuccessStatusCode)
                 return false;

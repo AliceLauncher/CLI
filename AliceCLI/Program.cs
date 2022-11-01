@@ -1,5 +1,6 @@
 ﻿global using static AliceCLI.Helper;
 using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
+using AliceCLI.Authentication.Microsoft.User;
 using AliceCLI.Java;
 
 internal class Program
@@ -97,6 +98,9 @@ internal class Program
                     case 0:
                         Console.ForegroundColor = ConsoleColor.White;
                         token = await new DeviceCodeFlow().Create();
+
+                        await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(token));
+
                         break;
 
                     case 2:

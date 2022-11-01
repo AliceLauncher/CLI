@@ -6,10 +6,5 @@
         {
             return "https://xsts.auth.xboxlive.com/";
         }
-
-        public override HttpContent GetPayload()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

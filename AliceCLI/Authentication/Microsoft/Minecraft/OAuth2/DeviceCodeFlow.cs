@@ -14,7 +14,7 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 
         private static IPublicClientApplication application;
 
-        private string[] scopes = new[] { "user.read" };
+        private string[] scopes = new[] { /*"user.read",*/"XboxLive.signin", "XboxLive.offline_access" };
 
         public DeviceCodeFlow()
         {
