@@ -1,12 +1,9 @@
 ﻿using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
 using AliceCLI.Java;
-using Microsoft.Win32.SafeHandles;
-using System.Diagnostics;
-using System.Drawing;
 
 internal class Program
 {
-
+    static ConsoleKeyInfo cKey;
     private static void WelcomeScreen()
     {
 
@@ -53,90 +50,80 @@ internal class Program
         bool isDebug = false;
         bool isUpdate = false;
 
+        string token = "";
+
         // required both
         string serviceModpack = string.Empty;
         // defaults to curseforge if service is empty
         string appidModpack = string.Empty;
 
-        WelcomeScreen();
+        int index = 0;
 
-        new Java();
-
-        Console.WriteLine("");
-
-        var token = await new AccessToken().Create();
-
-        Console.WriteLine("");
-
-        foreach (var @params in args)
+        do
         {
-            if (@params == "--debug")
-                isDebug = true;
-            if (@params == "--update")
-                isUpdate = true;
-            if(@params.Contains("--service="))
+            WelcomeScreen();
+            string[] options = { "Device Code (Microsoft) (CLI Recommended)", "Authorization Code (Microsoft)", "Email & Password (Mojang)", "Offline Login (Local)" };
+            for (int i = 0; i < options.Length; i++)
             {
-                if (@params.Contains("--appid="))
+                if (index == i)
                 {
-                    appidModpack = @params.Replace("--appid=", "");
-                    serviceModpack = @params.Replace("--service=", "");
+                    Console.ForegroundColor = ConsoleColor.White;
+                    Console.WriteLine($" →{options[i]}");
                 }
                 else
                 {
-                    Console.WriteLine("Couldn't fetch '--appid' parameter");
+                    Console.ForegroundColor = ConsoleColor.DarkGray;
+                    Console.WriteLine($"  {options[i]}");
                 }
-            } else
+            }
+
+            cKey = Console.ReadKey();
+            if (index != 0)
             {
-                if (@params.Contains("--appid="))
+                if (cKey.Key == ConsoleKey.UpArrow || cKey.Key == ConsoleKey.W)
+                    index--;
+            }
+
+            if (index != options.Length - 1)
+            {
+                if (cKey.Key == ConsoleKey.DownArrow || cKey.Key == ConsoleKey.S)
+                    index++;
+            }
+
+            if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
+            {
+                
+                switch (index)
                 {
-                    appidModpack = @params.Replace("--appid=", "");
-                    serviceModpack = "curseforge";
+                    case 0:
+                        Console.WriteLine("");
+                        Console.ForegroundColor = ConsoleColor.White;
+                        token = await new DeviceCodeFlow().Create();
+                        break;
                 }
+
+                if (token.Length != 0)
+                {
+                    await new Java().Exists();
+                    DisplayMenu();
+                }
+                else
+                {
+                    // strips the update args
+                    await Main(args.Select(x => x.Replace("--update", "")).ToArray());
+                }
+
             }
-        }
 
-        // for mojang login
-/*        Console.Write(" Login: ");
-        var user = Console.ReadLine();
+        } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
 
-        Console.Write(" Password: ");
-
-        // https://stackoverflow.com/questions/3404421/password-masking-console-application
-        var pass = string.Empty;
-        ConsoleKey key;
-        do
-        {
-            var keyInfo = Console.ReadKey(intercept: true);
-            key = keyInfo.Key;
-
-            if (key == ConsoleKey.Backspace && pass.Length > 0)
-            {
-                Console.Write("\b \b");
-                pass = pass[0..^1];
-            }
-            else if (!char.IsControl(keyInfo.KeyChar))
-            {
-                Console.Write("*");
-                pass += keyInfo.KeyChar;
-            }
-        } while (key != ConsoleKey.Enter);*/
-
-        if (token.Length != 0)
-        {
-            DisplayMenu();
-        }
-        else
-        {
-            // strips the update args
-            await Main(args.Select(x=>x.Replace("--update", "")).ToArray());
-        }
+        Console.WriteLine("");
 
     }
     
     private static void DisplayMenu()
     {
 
-        ConsoleKeyInfo cKey;
         int index = 0;
 
         do

@@ -12,7 +12,7 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
     /// <summary>
     /// https://github.com/Azure-Samples/ms-identity-dotnet-desktop-tutorial/blob/master/4-DeviceCodeFlow/Console-DeviceCodeFlow-v2/Program.cs
     /// </summary>
-    internal class AccessToken
+    internal class DeviceCodeFlow
     {
         private static PublicClientApplicationOptions appConfiguration = null;
 
@@ -22,7 +22,7 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 
         string[] scopes = new[] { "user.read" };
 
-        public AccessToken()
+        public DeviceCodeFlow()
         {
             var builder = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
@@ -40,7 +40,6 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 
         private static async Task<string> SignInUserAndGetTokenUsingMSAL(PublicClientApplicationOptions configuration, string[] scopes)
         {
-            Console.WriteLine("1");
             // build the AAd authority Url
             string authority = string.Concat(configuration.Instance, configuration.TenantId);
 
@@ -50,12 +49,10 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
                                                     .WithDefaultRedirectUri()
                                                     .Build();
 
-            Console.WriteLine("2");
             AuthenticationResult result;
 
             try
             {
-                Console.WriteLine("3");
                 var accounts = await application.GetAccountsAsync();
                 // Try to acquire an access token from the cache. If device code is required, Exception will be thrown.
                 result = await application.AcquireTokenSilent(scopes, accounts.FirstOrDefault()).ExecuteAsync();
@@ -68,7 +65,6 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
                     return Task.FromResult(0);
                 }).ExecuteAsync();
             }
-            Console.WriteLine("4");
             return result.AccessToken;
         }
 

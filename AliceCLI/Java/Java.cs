@@ -15,14 +15,7 @@ namespace AliceCLI.Java
         bool isLinux = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.Linux);
         bool isOSX = System.Runtime.InteropServices.RuntimeInformation.IsOSPlatform(OSPlatform.OSX);
 
-        Runtime jdk;
-
-        public Java()
-        {
-            Exists();
-        }
-
-        private void Exists()
+        public async Task Exists()
         {
             foreach (var item in versions)
             {
@@ -53,7 +46,7 @@ namespace AliceCLI.Java
                     Console.ForegroundColor = ConsoleColor.Yellow;
                     Console.WriteLine($"Java {item} doesn't exist! Attempting to download.");
                     Console.ForegroundColor = ConsoleColor.Gray;
-                    Download(new Runtime(item, path));
+                    await Download(new Runtime(item, path));
                 }
                 else
                 {
@@ -64,7 +57,7 @@ namespace AliceCLI.Java
             }
         }
 
-        private void Download(Runtime jre)
+        private async Task Download(Runtime jre)
         {
             if (isWindows)
             {
@@ -79,7 +72,7 @@ namespace AliceCLI.Java
                 jre.OS = "mac";
             }
 
-            jre.Download();
+            await jre.Download();
         }
     }
 }

@@ -28,7 +28,7 @@ namespace AliceCLI.Java
             Path = path;
         }
 
-        public void Download()
+        public async Task Download()
         {
             string url = $"https://api.adoptium.net/v3/binary/latest/{Version}/ga/{OS}/{Arch}/jre/hotspot/normal/eclipse";
 
@@ -47,7 +47,7 @@ namespace AliceCLI.Java
                 }
             }
 
-            var responseStream = client.GetStreamAsync(url);
+            var responseStream = await client.GetStreamAsync(url);
 
             if (!Directory.Exists(Path))
             {
@@ -56,7 +56,7 @@ namespace AliceCLI.Java
 
             using (var fileStream = new FileStream(Path + "/java", FileMode.Create))
             {
-                responseStream.Result.CopyTo(fileStream);
+                responseStream.CopyTo(fileStream);
             }
 
             if (File.Exists(Path + "/java"))
