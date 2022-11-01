@@ -31,9 +31,22 @@ internal class Program
 
     }
 
+    static void CurrentDomain_ProcessExit(object sender, EventArgs e)
+    {
+        Console.ForegroundColor= ConsoleColor.White;
+        Console.WriteLine("Goodbye.");
+    }
+
+    static bool isRegistered = false;
 
     private static void Main(string[] args)
     {
+        if (!isRegistered)
+        {
+            AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+            isRegistered = true;
+        }
+
         bool isSuccess = true;
 
         bool isDebug = false;
@@ -160,6 +173,8 @@ internal class Program
             Console.WriteLine("Press X or ESC to exit.");
 
             cKey = Console.ReadKey();
+
+            Console.WriteLine("");
 
             if(index != 0)
             {
