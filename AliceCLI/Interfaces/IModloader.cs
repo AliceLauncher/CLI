@@ -6,6 +6,10 @@ namespace AliceCLI.Interfaces
     {
         string URL();
 
-        JsonSerializer Deserialize();
+        Task<bool> Download()
+        {
+            HttpClient client = new HttpClient();
+            return null;
+        }
     }
 }
