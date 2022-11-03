@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace AliceCLI.Modloader.Vanilla
@@ -16,20 +17,28 @@ namespace AliceCLI.Modloader.Vanilla
         public string Id { get; set; }
         public string Type { get; set; }
         public string Url { get; set; }
+        public string Time { get; set; }
+        public string ReleaseTime { get; set; }
     }
+
     internal class Versions
     {
 
         List<Version> versions = new List<Version>();
         Latest latest;
 
-        public Versions(string url)
+        string BaseUrl { get; set; }
+
+        public Versions(string url) => this.BaseUrl = url;
+
+        public async void Parse()
         {
             HttpClient client = new HttpClient();
+            var result = await client.GetAsync(BaseUrl);
 
-            
+            JsonSerializer.Deserialize<Version>(result.Content.ToString());
         }
-    
+
         public Version GetVersion(string id)
         {
             return versions.Find(x => x.Id.Equals(id));
