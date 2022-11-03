@@ -97,7 +97,7 @@ internal class Program
                 {
                     case 0:
                         Console.ForegroundColor = ConsoleColor.White;
-                        token = await new DeviceCodeFlow().Create();
+                        token = await new DeviceCodeFlow("88f0a056-60d0-4005-a159-d94ddb768e79").Create();
 
                         await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(token));
 
