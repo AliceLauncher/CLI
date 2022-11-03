@@ -30,10 +30,6 @@ namespace AliceCLI.Authentication
                     break;   
             }
 
-            Console.WriteLine(response.Content.ToString());
-            Console.WriteLine(response.StatusCode);
-            Console.WriteLine("ye");
-
             if (response == null || !response.IsSuccessStatusCode)
                 return false;
 

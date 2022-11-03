@@ -1,11 +1,12 @@
 ﻿global using static AliceCLI.Helper;
 using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
-using AliceCLI.Authentication.Microsoft.User;
 using AliceCLI.Java;
+using CmlLib.Core.Auth;
 
 internal class Program
 {
     private static ConsoleKeyInfo cKey;
+    private static MSession session;
 
     private static void WelcomeScreen()
     {
@@ -49,7 +50,6 @@ internal class Program
         bool isDebug = false;
         bool isUpdate = false;
 
-        string token = "";
 
         // required both
         string serviceModpack = string.Empty;
@@ -98,10 +98,9 @@ internal class Program
                     case 0:
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        var session = await new DeviceCodeFlow("88f0a056-60d0-4005-a159-d94ddb768e79").Create();
-                        token = session.AccessToken;
+                        session = await new DeviceCodeFlow("88f0a056-60d0-4005-a159-d94ddb768e79").Create();
 
-                        await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(token));
+                        //await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(session.AccessToken));
 
                         break;
 
@@ -131,7 +130,7 @@ internal class Program
                             }
                         } while (key != ConsoleKey.Enter);
 
-                        token = "hi";
+                        //session = "hi";
 
                         break;
 
@@ -139,11 +138,11 @@ internal class Program
                         Console.Write(" Username: ");
                         var username = Console.ReadLine();
 
-                        token = "hi";
+                        //token = "hi";
                         break;
                 }
 
-                if (token.Length != 0)
+                if (session.CheckIsValid())
                 {
                     await new Java().Exists();
                     DisplayMenu();
@@ -169,7 +168,7 @@ internal class Program
 
             Console.ForegroundColor = ConsoleColor.White;
 
-            Console.WriteLine($" Logged in as: ");
+            Console.WriteLine($" Logged in as: {session.Username}");
             Console.WriteLine("");
 
             string[] options = { "Play", "Host", "Instances", "Options" };
