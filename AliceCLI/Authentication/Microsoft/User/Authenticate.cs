@@ -37,41 +37,25 @@ namespace AliceCLI.Authentication.Microsoft.User
 
         public Authenticate(string JWTToken) => this.JWTToken = JWTToken ?? throw new ArgumentNullException(nameof(JWTToken));
 
+        public string Data()
+        {
+            return JsonSerializer.Serialize(
+                new PayloadFormat
+                {
+                    Properties = new Properties
+                    {
+                        AuthMethod = "RPS",
+                        SiteName = "user.auth.xboxlive.com",
+                        RpsTicket = $"d={this.JWTToken}",
+                    },
+                    RelyingParty = "http://auth.xboxlive.com",
+                    TokenType = "JWT",
+                });
+        }
+
         public string Endpoint()
         {
             throw new NotImplementedException();
-        }
-
-        public HttpContent Payload()
-        {
-
-            Console.WriteLine(JsonSerializer.Serialize(
-                new PayloadFormat
-                {
-                    Properties = new Properties
-                    {
-                        AuthMethod = "RPS",
-                        SiteName = "user.auth.xboxlive.com",
-                        RpsTicket = $"d={this.JWTToken}",
-                    },
-                    RelyingParty = "http://auth.xboxlive.com",
-                    TokenType = "JWT",
-                }
-            ));
-
-            return JsonContent.Create(JsonSerializer.Serialize(
-                new PayloadFormat
-                {
-                    Properties = new Properties
-                    {
-                        AuthMethod = "RPS",
-                        SiteName = "user.auth.xboxlive.com",
-                        RpsTicket = $"d={this.JWTToken}",
-                    },
-                    RelyingParty = "http://auth.xboxlive.com",
-                    TokenType = "JWT",
-                }
-            ));
         }
     }
 }
