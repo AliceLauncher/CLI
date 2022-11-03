@@ -1,4 +1,5 @@
 ﻿using CmlLib.Core.Auth;
+using CmlLib.Core.Auth.Microsoft;
 using CmlLib.Core.Auth.Microsoft.MsalClient;
 using Microsoft.Identity.Client;
 
@@ -10,8 +11,6 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
 
     internal class DeviceCodeFlow
     {
-        MSession? session = null;
-
         private IPublicClientApplication app;
 
         public DeviceCodeFlow(string clientID)
@@ -19,24 +18,30 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
             app = MsalMinecraftLoginHelper.CreateDefaultApplicationBuilder(clientID).Build();
         }
 
-        public async Task<string> Create()
+        public async Task<MSession> Create()
         {
 
-            var handler = new MsalMinecraftLoginHandler(app);
-            try
-            {
-                session = await handler.LoginSilent();
-            } 
-            catch (MsalUiRequiredException)
-            {
-                session = await handler.LoginDeviceCode(result =>
+            var handler = new LoginHandlerBuilder()
+                .ForJavaEdition()
+                .WithMsalOAuth(app, f => f.CreateDeviceCodeApi(result =>
                 {
-                    Console.WriteLine($"Code: {result.UserCode}, ExpiresOn: {result.ExpiresOn.LocalDateTime}");
                     Console.WriteLine(result.Message);
                     return Task.CompletedTask;
-                });
+                }))
+                .Build();
+
+            try
+            {
+                var sessionCache = await handler.LoginFromCache();
+                return sessionCache.GameSession;
             }
-            return session.AccessToken;
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+                var sessionCache = await handler.LoginFromOAuth();
+                return sessionCache.GameSession;
+            }
+
         }
     }
 }

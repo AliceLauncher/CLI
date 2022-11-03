@@ -4,12 +4,12 @@ namespace AliceCLI.Authentication.Microsoft.XboxLive
 {
     internal class Authenticate : IRequest
     {
-        public string Endpoint()
+        public string Data()
         {
             throw new NotImplementedException();
         }
 
-        public HttpContent Payload()
+        public string Endpoint()
         {
             throw new NotImplementedException();
         }
