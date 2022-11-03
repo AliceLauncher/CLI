@@ -11,7 +11,7 @@ namespace AliceCLI.Authentication
 
             HttpResponseMessage? response = null;
 
-            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            client.DefaultRequestHeaders.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue(ContentType));
 
             switch (methods)
             {
@@ -19,7 +19,6 @@ namespace AliceCLI.Authentication
                     response = await client.GetAsync(GetBaseURL());
                     break;
                 case HttpMethods.POST:
-                    Console.WriteLine("hi");
                     response = await client.PostAsync(GetBaseURL(), request.Payload());
                     break;
                 case HttpMethods.PUT:
@@ -36,6 +35,6 @@ namespace AliceCLI.Authentication
             return true;
         }
 
-        private readonly string ContentType = "application/json";
+        private string ContentType = "application/json";
     }
 }

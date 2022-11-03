@@ -14,9 +14,5 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft
             throw new NotImplementedException();
         }
 
-        public HttpContent Payload()
-        {
-            throw new NotImplementedException();
-        }
     }
 }
