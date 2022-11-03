@@ -35,9 +35,9 @@ namespace AliceCLI.Authentication.Microsoft.Minecraft.OAuth2
                 var sessionCache = await handler.LoginFromCache();
                 return sessionCache.GameSession;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Console.WriteLine(ex);
+                Console.WriteLine("Invalid session! Please re-login.");
                 var sessionCache = await handler.LoginFromOAuth();
                 return sessionCache.GameSession;
             }
