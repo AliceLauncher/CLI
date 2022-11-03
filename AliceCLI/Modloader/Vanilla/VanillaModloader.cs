@@ -18,8 +18,7 @@ namespace AliceCLI.Modloader.Vanilla
 
             var game = new Game(ver.GetVersion("1.18.2"));
             await game.Parse();
-            game.Download();
-
+            await game.Download();
             return true;
         }
 

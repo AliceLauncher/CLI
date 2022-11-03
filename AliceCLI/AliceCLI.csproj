@@ -31,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Modloader\Vanilla\Libraries.Helper.cs" />
+    <None Include="Modloader\Vanilla\Library.Helper.cs" />
   </ItemGroup>
 
 </Project>

@@ -9,24 +9,25 @@ namespace AliceCLI.Modloader.Vanilla
 {
     internal class Game
     {
+        GameJson? game = new GameJson();
         string BaseUrl { get; set; }
-        public Game(Version metadata)
-        {
-            this.BaseUrl = metadata.url;
-            
-            Console.WriteLine(metadata.url);
-        }
+        public Game(Version metadata) => BaseUrl = metadata.url;
 
         public async Task Parse()
         {
             HttpClient client = new HttpClient();
-            var result = await client.GetFromJsonAsync<GameJson>(BaseUrl);
-            Console.WriteLine(result?.ToString());
+            
+            game = await client.GetFromJsonAsync<GameJson>(BaseUrl);
         }
 
-        public async void Download()
+        public async Task Download()
         {
-            Console.WriteLine("godzilla");
+            foreach (var libs in game.libraries)
+            {
+                var file = libs.downloads.artifact;
+                await new Library(file.url, $"{Environment.CurrentDirectory}/dts/libraries/{file.path}", file.sha1).Download();
+                Console.WriteLine($"Downloading: {libs.name}");
+            }
         }
     }
 }

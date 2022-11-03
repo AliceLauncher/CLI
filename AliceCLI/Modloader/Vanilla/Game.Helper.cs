@@ -7,6 +7,36 @@ using System.Threading.Tasks;
 
 namespace AliceCLI.Modloader.Vanilla
 {
+    class ClientFile
+    {
+        string id { get; set; }
+        string sha1 { get; set; }
+        int size { get; set; }
+        string url { get; set; }
+    }
+    class Client
+    {
+        string argument { get; set; }
+        ClientFile file { get; set; }
+        string type { get; set; }
+    }
+    class Logging
+    {
+        Client client { get; set; }
+    }
+    class DownloadsJson
+    {
+        string sha1 { get; set; }
+        int size { get; set; }
+        string url { get; set; }
+    }
+    class DownloadsLibraries
+    {
+        DownloadsJson client { get; set; }
+        DownloadsJson client_mappigs { get; set; }
+        DownloadsJson server { get; set; }
+        DownloadsJson server_mappings { get; set; }
+    }
     class JavaVersion
     {
         string component { get; set; }
@@ -21,15 +51,15 @@ namespace AliceCLI.Modloader.Vanilla
     }
     class GameJson
     {
-        //ArgumentsJson arguments { get; set; }
+        public ArgumentsJson arguments { get; set; }
         public AssetIndex assetIndex { get; set; }
         public string assets { get; set; }
         public int complicanceLevel { get; set; }
-        // downloads
+        public DownloadsJson downloads { get; set; }
         public string id { get; set; }
         public JavaVersion javaVersion { get; set; }
-        public List<LibrariesJson> libraries { get; set; }
-        // logging
+        public List<LibraryJson> libraries { get; set; }
+        public Logging logging { get; set; }
         public string mainClass { get; set; }
         public int minimumLauncherVersion { get; set; }
         public string releaseTime { get; set; }
