@@ -8,31 +8,33 @@ namespace AliceCLI.Modloader.Vanilla
 {
     class Os
     {
-        string Name { get; set; }
+        string name { get; set; }
     }
 
     class Rules
     {
-        string Action { get; set; }
-        Os Os { get; set; }
+        string action { get; set; }
+        Os os { get; set; }
     }
     class Artifact
     {
-        string Path { get; set; }
-        string Sha1 { get; set; }
-        int Size { get; set; }
-        string Url { get; set; }
+        string path { get; set; }
+        string sha1 { get; set; }
+        int size { get; set; }
+        string url { get; set; }
     }
 
     class Downloads
     {
-        Artifact Artifact { get; set; }
-        string Name { get; set; }
-        List<Os>();
+        Artifact artifact { get; set; }
+        string name { get; set; }
+        List<Os> os { get; set; }
     }
 
-    partial class Libraries
+    class LibrariesJson
     {
-        List<Downloads>();
+        List<Downloads> downloads { get; set; }
+        string name { get; set; }
+        List<Rules> rules { get; set; }
     }
 }

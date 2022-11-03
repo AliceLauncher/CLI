@@ -15,12 +15,12 @@
             Capes = capes;
         }
 
-        public string GetID() => ID;
+        public string? GetID() => ID;
 
-        public string GetName() => Name;
+        public string? GetName() => Name;
 
-        public Skin[] GetSkins() => Skins;
+        public Skin[]? GetSkins() => Skins;
 
-        public string[] GetCapes() => Capes;
+        public string[]? GetCapes() => Capes;
     }
 }

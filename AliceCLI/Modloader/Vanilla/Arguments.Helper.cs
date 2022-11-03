@@ -9,8 +9,16 @@ namespace AliceCLI.Modloader.Vanilla
     /// <summary>
     /// based of https://piston-meta.mojang.com/mc/game/version_manifest.json
     /// </summary>
+    
+    class ArgumentsJson
+    {
+        List<object> game { get; set; }
+        List<object> jvm { get; set; }
+    }
+
     internal partial class Arguments
     {
+        // game arguments
         private string Username { get; set; }
         private string Version { get; set; }
         private string GameDir { get; set; }

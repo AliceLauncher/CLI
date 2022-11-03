@@ -1,6 +1,8 @@
 ﻿global using static AliceCLI.Helper;
 using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
+using AliceCLI.Interfaces;
 using AliceCLI.Java;
+using AliceCLI.Modloader.Vanilla;
 using CmlLib.Core.Auth;
 
 internal class Program
@@ -75,7 +77,7 @@ internal class Program
                     Console.WriteLine($"  {options[i]}");
                 }
             }
-
+            
             cKey = Console.ReadKey();
             if (index != 0)
             {
@@ -158,7 +160,7 @@ internal class Program
         Console.WriteLine("");
     }
 
-    private static void DisplayMenu()
+    private async static void DisplayMenu()
     {
         int index = 0;
 
@@ -171,7 +173,7 @@ internal class Program
             Console.WriteLine($" Logged in as: {session.Username}");
             Console.WriteLine("");
 
-            string[] options = { "Play", "Host", "Instances", "Options" };
+            string[] options = { "Play", "Host", "Instances", "Options", "Sign Out" };
             for (int i = 0; i < options.Length; i++)
             {
                 if (index == i)
@@ -219,6 +221,29 @@ internal class Program
 
             if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
             {
+                switch (index)
+                {
+                    case 0:
+
+                        var modloader = new VanillaModloader();
+                        await modloader.Download();
+                        modloader.Play();
+
+                        break;
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                    case 3:
+                        break;
+                    case 4:
+                        break;
+                    case 5:
+                        Console.WriteLine("Signing out.");
+
+                        Environment.Exit(0);
+                        break;
+                }
             }
         } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
 
