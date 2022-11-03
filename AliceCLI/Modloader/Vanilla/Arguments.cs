@@ -9,6 +9,8 @@ namespace AliceCLI.Modloader.Vanilla
 {
     internal partial class Arguments
     {
+        // order JVM -> user arguments -> releases etc
+
         /// <summary>
         /// windows
         /// linux
@@ -24,7 +26,7 @@ namespace AliceCLI.Modloader.Vanilla
 
         public string GetArguments()
         {
-
+            return "";
         }
     }
 }

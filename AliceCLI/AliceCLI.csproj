@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Modloader\Vanilla\Libraries.Helper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CmlLib.Core.Auth.Microsoft" Version="2.2.0" />
     <PackageReference Include="CmlLib.Core.Auth.Microsoft.MsalClient" Version="2.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
@@ -26,6 +30,10 @@
     <Folder Include="Instances\Services\FTB\" />
     <Folder Include="Instances\Services\Local\" />
     <Folder Include="Instances\Services\Vanilla\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Modloader\Vanilla\Libraries.Helper.cs" />
   </ItemGroup>
 
 </Project>

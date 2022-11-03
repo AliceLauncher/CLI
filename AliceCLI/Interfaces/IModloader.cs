@@ -5,11 +5,11 @@ namespace AliceCLI.Interfaces
     internal interface IModloader
     {
         string URL();
-
-        Task<bool> Download()
+        Task<bool> Download();
+        
+        void Play(string version)
         {
-            HttpClient client = new HttpClient();
-            return null;
+
         }
     }
 }

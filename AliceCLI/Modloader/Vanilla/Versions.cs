@@ -6,14 +6,22 @@ using System.Threading.Tasks;
 
 namespace AliceCLI.Modloader.Vanilla
 {
+    class Latest
+    {
+        public string Release { get; set; }
+        public string Snapshot { get; set; }
+    }
     class Version
     {
-        string id { get; set; }
-        string type { get; set; }
-        string url { get; set; }
+        string Id { get; set; }
+        string Type { get; set; }
+        string Url { get; set; }
     }
     internal class Versions
     {
+        public Versions(string url)
+        {
 
+        }
     }
 }

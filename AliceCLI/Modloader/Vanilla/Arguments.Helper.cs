@@ -11,21 +11,21 @@ namespace AliceCLI.Modloader.Vanilla
     /// </summary>
     internal partial class Arguments
     {
-        private string username { get; set; }
-        private string version { get; set; }
-        private string gameDir { get; set; }
-        private string assetsDir { get; set; }
-        private string aasetIndex { get; set; }
-        private string uuid { get; set; }
-        private string accessToken { get; set; }
-        private string clientId { get; set; }
-        private string xuid { get; set; }
-        private string userType { get; set; }
-        private string versionType { get; set; }
+        private string Username { get; set; }
+        private string Version { get; set; }
+        private string GameDir { get; set; }
+        private string AssetsDir { get; set; }
+        private string AssetIndex { get; set; }
+        private string Uuid { get; set; }
+        private string AccessToken { get; set; }
+        private string ClientId { get; set; }
+        private string Xuid { get; set; }
+        private string UserType { get; set; }
+        private string VersionType { get; set; }
 
         // not required if not custom
-        private string width { get; set; }
-        private string height { get; set; }
+        private string Width { get; set; }
+        private string Height { get; set; }
 
         // jvm rules
         // windows
