@@ -1,4 +1,5 @@
 ﻿global using static AliceCLI.Helper;
+using AliceCLI;
 using AliceCLI.Authentication.Microsoft.Minecraft.OAuth2;
 using AliceCLI.Interfaces;
 using AliceCLI.Java;
@@ -41,213 +42,234 @@ internal class Program
 
     private static bool isRegistered = false;
 
+    static ConsoleMenu mode = ConsoleMenu.Login;
+
     private static async Task Main(string[] args)
     {
-        if (!isRegistered)
+        while (true)
         {
-            AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
-            isRegistered = true;
-        }
-
-        bool isDebug = false;
-        bool isUpdate = false;
-
-
-        // required both
-        string serviceModpack = string.Empty;
-        // defaults to curseforge if service is empty
-        string appidModpack = string.Empty;
-
-        int index = 0;
-
-        do
-        {
-            WelcomeScreen();
-            string[] options = { "Device Code (Microsoft) (CLI Recommended)", "Authorization Code (Microsoft)", "Email & Password (Mojang)", "Offline Login (Local)" };
-            for (int i = 0; i < options.Length; i++)
+            switch (mode)
             {
-                if (index == i)
-                {
-                    Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine($" →{options[i]}");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"  {options[i]}");
-                }
-            }
-            
-            cKey = Console.ReadKey();
-            if (index != 0)
-            {
-                if (cKey.Key == ConsoleKey.UpArrow || cKey.Key == ConsoleKey.W)
-                    index--;
-            }
+                case ConsoleMenu.Login:
 
-            if (index != options.Length - 1)
-            {
-                if (cKey.Key == ConsoleKey.DownArrow || cKey.Key == ConsoleKey.S)
-                    index++;
-            }
+                    if (!isRegistered)
+                    {
+                        AppDomain.CurrentDomain.ProcessExit += new EventHandler(CurrentDomain_ProcessExit);
+                        isRegistered = true;
+                    }
 
-            if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
-            {
-                Console.WriteLine("");
+                    bool isDebug = false;
+                    bool isUpdate = false;
 
-                switch (index)
-                {
-                    case 0:
+
+                    // required both
+                    string serviceModpack = string.Empty;
+                    // defaults to curseforge if service is empty
+                    string appidModpack = string.Empty;
+
+                    int indexLogin = 0;
+
+                    do
+                    {
+                        WelcomeScreen();
+                        string[] options = { "Device Code (Microsoft) (CLI Recommended)", "Authorization Code (Microsoft)", "Email & Password (Mojang)", "Offline Login (Local)" };
+                        for (int i = 0; i < options.Length; i++)
+                        {
+                            if (indexLogin == i)
+                            {
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.WriteLine($" →{options[i]}");
+                            }
+                            else
+                            {
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                Console.WriteLine($"  {options[i]}");
+                            }
+                        }
+
+                        cKey = Console.ReadKey();
+                        if (indexLogin != 0)
+                        {
+                            if (cKey.Key == ConsoleKey.UpArrow || cKey.Key == ConsoleKey.W)
+                                indexLogin--;
+                        }
+
+                        if (indexLogin != options.Length - 1)
+                        {
+                            if (cKey.Key == ConsoleKey.DownArrow || cKey.Key == ConsoleKey.S)
+                                indexLogin++;
+                        }
+
+                        if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
+                        {
+                            Console.WriteLine("");
+
+                            switch (indexLogin)
+                            {
+                                case 0:
+                                    Console.ForegroundColor = ConsoleColor.White;
+
+                                    session = await new DeviceCodeFlow("88f0a056-60d0-4005-a159-d94ddb768e79").Create();
+
+                                    //await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(session.AccessToken));
+
+                                    break;
+
+                                case 2:
+                                    Console.Write(" Login: ");
+                                    var user = Console.ReadLine();
+
+                                    Console.Write(" Password: ");
+
+                                    // https://stackoverflow.com/questions/3404421/password-masking-console-application
+                                    var pass = string.Empty;
+                                    ConsoleKey key;
+                                    do
+                                    {
+                                        var keyInfo = Console.ReadKey(intercept: true);
+                                        key = keyInfo.Key;
+
+                                        if (key == ConsoleKey.Backspace && pass.Length > 0)
+                                        {
+                                            Console.Write("\b \b");
+                                            pass = pass[0..^1];
+                                        }
+                                        else if (!char.IsControl(keyInfo.KeyChar))
+                                        {
+                                            Console.Write("*");
+                                            pass += keyInfo.KeyChar;
+                                        }
+                                    } while (key != ConsoleKey.Enter);
+
+                                    //session = "hi";
+
+                                    break;
+
+                                case 3:
+                                    Console.Write(" Username: ");
+                                    var username = Console.ReadLine();
+
+                                    //token = "hi";
+                                    break;
+                            }
+
+                            if (session.CheckIsValid())
+                            {
+                                await new Java().Exists();
+                                mode = ConsoleMenu.MainMenu;
+                                break;
+                            }
+                            else
+                            {
+                                // strips the update args
+                                await Main(args.Select(x => x.Replace("--update", "")).ToArray());
+                            }
+                        }
+                    } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
+
+                    Console.WriteLine("");
+
+
+                    break;
+                case ConsoleMenu.MainMenu:
+
+                    int indexMainMenu = 0;
+
+                    do
+                    {
+                        WelcomeScreen();
+
                         Console.ForegroundColor = ConsoleColor.White;
 
-                        session = await new DeviceCodeFlow("88f0a056-60d0-4005-a159-d94ddb768e79").Create();
+                        Console.WriteLine($" Logged in as: {session.Username}");
+                        Console.WriteLine("");
 
-                        //await new User().Execute(AliceCLI.HttpMethods.POST, new Authenticate(session.AccessToken));
-
-                        break;
-
-                    case 2:
-                        Console.Write(" Login: ");
-                        var user = Console.ReadLine();
-
-                        Console.Write(" Password: ");
-
-                        // https://stackoverflow.com/questions/3404421/password-masking-console-application
-                        var pass = string.Empty;
-                        ConsoleKey key;
-                        do
+                        string[] options = { "Play", "Host", "Instances", "Options", "Sign Out" };
+                        for (int i = 0; i < options.Length; i++)
                         {
-                            var keyInfo = Console.ReadKey(intercept: true);
-                            key = keyInfo.Key;
-
-                            if (key == ConsoleKey.Backspace && pass.Length > 0)
+                            if (indexMainMenu == i)
                             {
-                                Console.Write("\b \b");
-                                pass = pass[0..^1];
+                                Console.ForegroundColor = ConsoleColor.White;
+                                Console.WriteLine($" →{options[i]}");
                             }
-                            else if (!char.IsControl(keyInfo.KeyChar))
+                            else
                             {
-                                Console.Write("*");
-                                pass += keyInfo.KeyChar;
+                                Console.ForegroundColor = ConsoleColor.DarkGray;
+                                Console.WriteLine($"  {options[i]}");
                             }
-                        } while (key != ConsoleKey.Enter);
+                        }
 
-                        //session = "hi";
+                        Console.WriteLine("");
 
-                        break;
+                        Console.ForegroundColor = ConsoleColor.DarkMagenta;
+                        Console.WriteLine(" ♥ Discord: discord.alicelauncher.com");
+                        Console.WriteLine(" ♥ Website: alicelauncher.com");
 
-                    case 3:
-                        Console.Write(" Username: ");
-                        var username = Console.ReadLine();
+                        Console.ForegroundColor = ConsoleColor.White;
+                        Console.WriteLine("");
+                        Console.WriteLine(" Version: 0.1");
+                        Console.WriteLine(" - with love, Project Alice...");
+                        Console.WriteLine("");
 
-                        //token = "hi";
-                        break;
-                }
+                        Console.ForegroundColor = ConsoleColor.DarkRed;
+                        Console.WriteLine("Press X or ESC to exit.");
 
-                if (session.CheckIsValid())
-                {
-                    await new Java().Exists();
-                    DisplayMenu();
-                }
-                else
-                {
-                    // strips the update args
-                    await Main(args.Select(x => x.Replace("--update", "")).ToArray());
-                }
-            }
-        } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
+                        cKey = Console.ReadKey();
+                        Console.WriteLine("");
 
-        Console.WriteLine("");
-    }
+                        if (indexMainMenu != 0)
+                        {
+                            if (cKey.Key == ConsoleKey.UpArrow || cKey.Key == ConsoleKey.W)
+                                indexMainMenu--;
+                        }
 
-    private async static void DisplayMenu()
-    {
-        int index = 0;
+                        if (indexMainMenu != options.Length - 1)
+                        {
+                            if (cKey.Key == ConsoleKey.DownArrow || cKey.Key == ConsoleKey.S)
+                                indexMainMenu++;
+                        }
 
-        do
-        {
-            WelcomeScreen();
+                        if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
+                        {
+                            switch (indexMainMenu)
+                            {
+                                case 0:
 
-            Console.ForegroundColor = ConsoleColor.White;
+                                    var modloader = new VanillaModloader();
+                                    await modloader.Download();
+                                    modloader.Play();
 
-            Console.WriteLine($" Logged in as: {session.Username}");
-            Console.WriteLine("");
+                                    break;
+                                case 1:
+                                    break;
+                                case 2:
+                                    break;
+                                case 3:
+                                    break;
+                                case 4:
+                                    break;
+                                case 5:
+                                    Console.WriteLine("Signing out.");
 
-            string[] options = { "Play", "Host", "Instances", "Options", "Sign Out" };
-            for (int i = 0; i < options.Length; i++)
-            {
-                if (index == i)
-                {
+                                    Environment.Exit(0);
+                                    break;
+                            }
+                        }
+                    } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
+
                     Console.ForegroundColor = ConsoleColor.White;
-                    Console.WriteLine($" →{options[i]}");
-                }
-                else
-                {
-                    Console.ForegroundColor = ConsoleColor.DarkGray;
-                    Console.WriteLine($"  {options[i]}");
-                }
+
+                    break;
+                case ConsoleMenu.Instance:
+                    break;
+                case ConsoleMenu.Settings:
+                    break;
+                case ConsoleMenu.Host:
+                    break;
+                default:
+                    break;
             }
-
-            Console.WriteLine("");
-
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine(" ♥ Discord: discord.alicelauncher.com");
-            Console.WriteLine(" ♥ Website: alicelauncher.com");
-
-            Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("");
-            Console.WriteLine(" Version: 0.1");
-            Console.WriteLine(" - with love, Project Alice...");
-            Console.WriteLine("");
-
-            Console.ForegroundColor = ConsoleColor.DarkRed;
-            Console.WriteLine("Press X or ESC to exit.");
-
-            cKey = Console.ReadKey();
-
-            Console.WriteLine("");
-
-            if (index != 0)
-            {
-                if (cKey.Key == ConsoleKey.UpArrow || cKey.Key == ConsoleKey.W)
-                    index--;
-            }
-
-            if (index != options.Length - 1)
-            {
-                if (cKey.Key == ConsoleKey.DownArrow || cKey.Key == ConsoleKey.S)
-                    index++;
-            }
-
-            if (cKey.Key == ConsoleKey.RightArrow || cKey.Key == ConsoleKey.Enter || cKey.Key == ConsoleKey.D)
-            {
-                switch (index)
-                {
-                    case 0:
-
-                        var modloader = new VanillaModloader();
-                        await modloader.Download();
-                        modloader.Play();
-
-                        break;
-                    case 1:
-                        break;
-                    case 2:
-                        break;
-                    case 3:
-                        break;
-                    case 4:
-                        break;
-                    case 5:
-                        Console.WriteLine("Signing out.");
-
-                        Environment.Exit(0);
-                        break;
-                }
-            }
-        } while (cKey.Key != ConsoleKey.Escape && cKey.Key != ConsoleKey.X);
-
-        Console.ForegroundColor = ConsoleColor.White;
+        }
     }
 
     // check on updates from github

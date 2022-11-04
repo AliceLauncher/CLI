@@ -34,7 +34,7 @@ namespace AliceCLI.Java
                     Environment.Exit(1);
                 }
 
-                string path = $"{Environment.CurrentDirectory}/runtime/{os}/jre_{item}";
+                string path = $"{Environment.CurrentDirectory}/java/{os}/jre_{item}";
 
                 if (!Directory.Exists(path))
                 {

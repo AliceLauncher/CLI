@@ -50,4 +50,13 @@ namespace AliceCLI
         FORGE,
         FABRIC,
     }
+
+    public enum ConsoleMenu
+    {
+        Login,
+        MainMenu,
+        Instance,
+        Settings,
+        Host,
+    }
 }
