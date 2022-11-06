@@ -33,7 +33,7 @@ namespace AliceCLI.Modloader.Vanilla
     class DownloadsLibraries
     {
         public DownloadsJson client { get; set; }
-        public DownloadsJson client_mappigs { get; set; }
+        public DownloadsJson client_mappings { get; set; }
         public DownloadsJson server { get; set; }
         public DownloadsJson server_mappings { get; set; }
     }
@@ -56,7 +56,7 @@ namespace AliceCLI.Modloader.Vanilla
         public AssetIndex assetIndex { get; set; }
         public string assets { get; set; }
         public int complicanceLevel { get; set; }
-        public DownloadsJson downloads { get; set; }
+        public DownloadsLibraries downloads { get; set; }
         public string id { get; set; }
         public JavaVersion javaVersion { get; set; }
         public List<LibraryJson> libraries { get; set; }

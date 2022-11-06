@@ -16,9 +16,10 @@ namespace AliceCLI.Modloader.Vanilla
         /// linux
         /// osx
         /// </summary>
-        
-        
 
+        string args = "";
+        
+        // pass os in constr
         public Arguments()
         {
 
@@ -28,5 +29,7 @@ namespace AliceCLI.Modloader.Vanilla
         {
             return "";
         }
+
+        public string AddArguments(string arg) => args += arg;
     }
 }

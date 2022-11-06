@@ -26,8 +26,6 @@
     <Folder Include="Instances\Services\FTB\" />
     <Folder Include="Instances\Services\Local\" />
     <Folder Include="Instances\Services\Vanilla\" />
-    <Folder Include="Modloader\Fabric\" />
-    <Folder Include="Modloader\Forge\" />
   </ItemGroup>
 
 </Project>

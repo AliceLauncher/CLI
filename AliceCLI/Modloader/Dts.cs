@@ -38,6 +38,8 @@ namespace AliceCLI.Modloader
             HttpClient client = new HttpClient();
             var responseStream = await client.GetStreamAsync(BaseUrl);
 
+            Console.WriteLine($"Downloading: {new DirectoryInfo(SavePath).Name}");
+
             Directory.CreateDirectory(Path.GetFullPath(Path.Combine(SavePath, @"..\")));
             using (var fileStream = new FileStream(SavePath, FileMode.Create))
             {

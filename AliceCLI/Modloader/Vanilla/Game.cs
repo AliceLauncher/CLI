@@ -36,14 +36,15 @@ namespace AliceCLI.Modloader.Vanilla
                     }
                 }
                 await new Dts(file.url, file.path, "libraries").Download();
-                Console.WriteLine($"Downloading: {libs.name}.jar");
             }
 
             await new Dts(game.assetIndex.url, $"indexes/{game.assetIndex.id}.json", "assets").Download();
-            Console.WriteLine($"Downloading: {game.assetIndex.id}.json");
 
             await new Dts(game.logging.client.file.url, $"log_configs/{game.logging.client.file.id}", "assets").Download();
-            Console.WriteLine($"Downloading: {game.logging.client.file.id}");
+
+            await new Dts(game.downloads.client.url, $"{game.id}/{game.id}.jar", "versions").Download();
+
+            await new Dts(BaseUrl, $"{game.id}/{game.id}.json", "versions").Download();
 
         }
     }

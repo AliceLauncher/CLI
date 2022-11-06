@@ -18,6 +18,10 @@ namespace AliceCLI.Modloader.Vanilla
 
     internal partial class Arguments
     {
+
+
+
+
         // game arguments
         private string Username { get; set; }
         private string Version { get; set; }
