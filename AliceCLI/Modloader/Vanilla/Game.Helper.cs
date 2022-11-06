@@ -79,15 +79,15 @@ namespace AliceCLI.Modloader.Vanilla
     }
     class Artifact
     {
-        public string path { get; set; }
-        public string sha1 { get; set; }
-        public int size { get; set; }
-        public string url { get; set; }
+        public string? path { get; set; }
+        public string? sha1 { get; set; }
+        public int? size { get; set; }
+        public string? url { get; set; }
     }
 
     class DownloadsLibrariesJson
     {
-        public Artifact artifact { get; set; }
+        public Artifact? artifact { get; set; }
     }
 
     class LibraryJson

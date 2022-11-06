@@ -25,7 +25,6 @@ namespace AliceCLI.Modloader.Vanilla
         {
             foreach (var libs in game.libraries)
             {
-                
                 var file = libs.downloads.artifact;
                 // os filtering
                 if (libs.rules is not null)
@@ -39,11 +38,8 @@ namespace AliceCLI.Modloader.Vanilla
             }
 
             await new Dts(game.assetIndex.url, $"indexes/{game.assetIndex.id}.json", "assets").Download();
-
             await new Dts(game.logging.client.file.url, $"log_configs/{game.logging.client.file.id}", "assets").Download();
-
             await new Dts(game.downloads.client.url, $"{game.id}/{game.id}.jar", "versions").Download();
-
             await new Dts(BaseUrl, $"{game.id}/{game.id}.json", "versions").Download();
 
         }

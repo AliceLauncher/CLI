@@ -6,15 +6,12 @@ using System.Threading.Tasks;
 
 namespace AliceCLI.Modloader.Vanilla
 {
-    internal class VanillaModloader : Modloader
+    internal  class VanillaModloader : Modloader
     {
         public override string URL() => "https://piston-meta.mojang.com/mc/game/version_manifest.json";
-        
-        public override string GetArguments()
-        {
-            throw new NotImplementedException();
-        }
-        
+
+        public override string Arguments() => new Arguments().GetArguments();
+
         public override async Task<bool> Download()
         {
 
