@@ -10,6 +10,7 @@ namespace AliceCLI.Modloader.Vanilla
     internal class Game
     {
         GameJson? game = new GameJson();
+
         string BaseUrl { get; set; }
         public Game(Version metadata) => BaseUrl = metadata.url;
 
@@ -24,10 +25,26 @@ namespace AliceCLI.Modloader.Vanilla
         {
             foreach (var libs in game.libraries)
             {
+                
                 var file = libs.downloads.artifact;
-                await new Library(file.url, $"{Environment.CurrentDirectory}/dts/libraries/{file.path}", file.sha1).Download();
-                Console.WriteLine($"Downloading: {libs.name}");
+                // os filtering
+                if (libs.rules is not null)
+                {
+                    foreach (var item in libs.rules)
+                    {
+                        // check for os helper etc
+                    }
+                }
+                await new Dts(file.url, file.path, "libraries").Download();
+                Console.WriteLine($"Downloading: {libs.name}.jar");
             }
+
+            await new Dts(game.assetIndex.url, $"indexes/{game.assetIndex.id}.json", "assets").Download();
+            Console.WriteLine($"Downloading: {game.assetIndex.id}.json");
+
+            await new Dts(game.logging.client.file.url, $"log_configs/{game.logging.client.file.id}", "assets").Download();
+            Console.WriteLine($"Downloading: {game.logging.client.file.id}");
+
         }
     }
 }

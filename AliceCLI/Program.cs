@@ -237,7 +237,7 @@ internal class Program
 
                                     var modloader = new VanillaModloader();
                                     await modloader.Download();
-                                    modloader.Play();
+                                    modloader.Play(session);
 
                                     break;
                                 case 1:

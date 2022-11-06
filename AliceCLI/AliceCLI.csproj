@@ -30,8 +30,4 @@
     <Folder Include="Modloader\Forge\" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="Modloader\Vanilla\Library.Helper.cs" />
-  </ItemGroup>
-
 </Project>
